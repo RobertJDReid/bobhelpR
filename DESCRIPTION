@@ -1,0 +1,17 @@
+Package: bobhelpR
+Type: Package
+Title: Helper functions for analysis of Y1000 BLAST results (Title Case)
+Version: 0.1.0
+Author: Robert J.D. Reid, Ph.D.
+Maintainer: Robert J.D. Reid, Ph.D. <robert.reid381@gmail.com>
+Description: Collection of helper functions
+License: What license?
+Encoding: UTF-8
+LazyData: true
+Imports:
+    purrr,
+    readr,
+    stringr,
+    dplyr,
+    tidyr,
+    rlang

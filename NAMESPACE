@@ -1,5 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 #importFrom(magrittr,"%>%")
+importFrom(RCurl,getURL)
 import(purrr)
 import(readr)
 import(stringr)

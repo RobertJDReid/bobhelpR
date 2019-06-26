@@ -1,15 +1,20 @@
-# First R Package
+# First R Package bobhelpR
 #
-#' seqPile function
-#'
-#' makes a pileup vector from a vector of sequence starts and a vector of sequence ends
-#'  as in DNA or protein sequences
-#'
-#' Input
-#'   a vector of start numbers
-#'   a vector of end numbers
-#'
-#' Returns a vector of the collapsed sequence runs for compiling a histogram
+# Just a bunch of helper functions
+# but in particular functions to deal with Y1000 BLAST data
+#
+# ----------------------------------------------------------
+#
+#                   seqPile function
+#
+# makes a pileup vector from a vector of sequence starts and a vector of sequence ends
+#  as in DNA or protein sequences
+#
+# Input
+#   a vector of start numbers
+#   a vector of end numbers
+#
+# Returns a vector of the collapsed sequence runs for compiling a histogram
 #
 
 # returning as a vector of numbers
@@ -19,13 +24,16 @@ seqPile <- function(start_vector,end_vector) {
     purrr::reduce(c)
 }
 
-#' readYKBLAST function
-#'
-#' reads a full BLAST report from the Y1000 BLAST server and parses into a dataframe
-#'
-#' Input
-#'   dataDir defaults to 'data/'
-#'   filename defaults to 'sequenceserver-full_tsv_report.tsv'
+#
+# ----------------------------------------------------------
+#
+#                readYKBLAST function
+#
+# reads a full BLAST report from the Y1000 BLAST server and parses into a dataframe
+#
+# Input
+#   dataDir defaults to 'data/'
+#   filename defaults to 'sequenceserver-full_tsv_report.tsv'
 
 readYKBLAST <- function(file, skip = 3, prefix = "# Fields: ") {
 
@@ -51,25 +59,28 @@ readYKBLAST <- function(file, skip = 3, prefix = "# Fields: ") {
 }
 
 
-#' alignmentMidpoints
-#'
-#' returns the midpoint position of the alignment wrt the subject template
-#'
+#
+# ----------------------------------------------------------
+#
+#                      alignmentMidpoints
+#
+# returns the midpoint position of the alignment wrt the subject template
+#
 
-#' maxPerContigMidpoint function
-#'
-#' calculates the position on a template of the maximum alignment score from a group of contigs and scores
-#' useful for results from genome-wide alignment searches where there may be multiple "hits" on a contig
-#'
-#' INPUT
-#'   for vectors for variables:
-#'      contig_names
-#'      align_start
-#'      align_end
-#'      score
-#'
-#' OUTPUT
-#'   df of contig names and the midpoint wrt contig of the max BLAST hit
+# maxPerContigMidpoint function
+#
+# calculates the position on a template of the maximum alignment score from a group of contigs and scores
+# useful for results from genome-wide alignment searches where there may be multiple "hits" on a contig
+#
+# INPUT
+#   for vectors for variables:
+#      contig_names
+#      align_start
+#      align_end
+#      score
+#
+# OUTPUT
+#   df of contig names and the midpoint wrt contig of the max BLAST hit
 
 maxInContig <- function(contig_names, align_mid, score) {
 
@@ -86,13 +97,16 @@ maxInContig <- function(contig_names, align_mid, score) {
     rename(!!x := contig_names)
 }
 
-#' alignmentGroup function
-#'
-#' INPUT
-#'   A Y1000 BLAST alignment file
-#' OUTPUT
-#'   A BLAST alignment file filtered to include max scoring hit on each DNA subject
-#'   plus lower scoring alignments that are within query DNA length of the high scoring alignment
+#
+# ----------------------------------------------------------
+#
+#               alignmentGroup function
+#
+# INPUT
+#   A Y1000 BLAST alignment file
+# OUTPUT
+#   A BLAST alignment file filtered to include max scoring hit on each DNA subject
+#   plus lower scoring alignments that are within query DNA length of the high scoring alignment
 
 alignmentGroups <- function (BLASTdf, query_length_DNA) {
 
@@ -103,12 +117,15 @@ alignmentGroups <- function (BLASTdf, query_length_DNA) {
     filter(dif_to_max < query_length_DNA)
 }
 
-#' scoreSUM function
-#'
-#' INPUT
-#'   A list of DNA subjects - contig, scaffold, chromosome, etc
-#' OUTPUT
-#'   DF with summation of grouped BLAST alignment scores
+#
+# ----------------------------------------------------------
+#
+#                  scoreSUM function
+#
+# INPUT
+#   A list of DNA subjects - contig, scaffold, chromosome, etc
+# OUTPUT
+#   DF with summation of grouped BLAST alignment scores
 
 sumGroupScores <- function(BLASTdf) {
   score_sums <- BLASTdf %>%
@@ -119,7 +136,10 @@ sumGroupScores <- function(BLASTdf) {
     )
 }
 
-#' maxGroupScores
+#
+# ----------------------------------------------------------
+#
+#                   maxGroupScores
 
 maxGroupScore <- function(BLASTdf) {
   bySpeciesMax <- sumGroupScores(BLASTdf) %>%
@@ -129,14 +149,18 @@ maxGroupScore <- function(BLASTdf) {
     filter(score_sum == max(score_sum))
 }
 
-#' unGap
-#'
-#' INPUT
-#'   seq1
-#'   seq2
-#'
-#' OUTPUT
-#'   seq2 with insertions wrt seq1 removed
+
+#
+# ----------------------------------------------------------
+#
+#                       unGap
+#
+# INPUT
+#   seq1
+#   seq2
+#
+# OUTPUT
+#   seq2 with insertions wrt seq1 removed
 
 unGap <- function(seq1, seq2) {
 
@@ -151,16 +175,19 @@ unGap <- function(seq1, seq2) {
 
 }
 
-#' fineSegment
-#'
-#' INPUT
-#'   query sequence match start
-#'   query sequence from match
-#'   subject sequence from match
-#'
-#' Output
-#'   A vector of positions conserved wrt the query sequence
-#'
+#
+# ----------------------------------------------------------
+#
+#                     fineSegment
+#
+# INPUT
+#   query sequence match start
+#   query sequence from match
+#   subject sequence from match
+#
+# Output
+#   A vector of positions conserved wrt the query sequence
+#
 
 fineSegment <- function(start,query,subject) {
   new.string <- unGap(query,subject)
@@ -175,15 +202,17 @@ fineSegment <- function(start,query,subject) {
   return(segmentList)
 }
 
-
-#' gapPositions
-#'
-#' INPUT
-#'   sequence with dash character as gap
-#'
-#' OUTPUT
-#'   positions in seqeunce that are opened for gap from - gap opens after numbered position
-#'
+#
+# ----------------------------------------------------------
+#
+#                      gapPositions
+#
+# INPUT
+#   sequence with dash character as gap
+#
+# OUTPUT
+#   positions in seqeunce that are opened for gap from - gap opens after numbered position
+#
 
 # gapPositions <- function(sequence) {
 #   positionDF <- as.data.frame(str_locate_all(sequence,'-{1,}')[[1]]) %>%
@@ -201,4 +230,57 @@ gapPositions <- function(sequence, gapSize = 1) {
            cum = cumsum(len),
            recount = end - cum)
   return(positionDF$recount)
+}
+
+#
+# ----------------------------------------------------------
+#
+#                  getYeastUniProtInfo
+#
+# INPUT
+#   URL - defaults to 'https://www.uniprot.org/docs/yeast.txt'
+#   path - defaults to "uniprot.txt"
+#   skip - defaults to 58
+#   widths - defaults to c(75, 20, 11, 12, 11, 5, 4, 3)
+#   names - defaults to c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")
+#
+# OUTPUT
+#   side effect of writing the uniprot.txt file into the working directory
+
+#' get yeast UniProt info
+#'
+#' This function simply loads a list of the yeast genes in the Swiss UNIPROT database
+#' and saves it as a file
+#'
+#' @param URL The web location of the file.
+#' Defaults to \code{'https://www.uniprot.org/docs/yeast.txt'}
+#' @param path The directory path to store the file
+#' Defaults to \code{"uniprot.txt"} in working directory.
+#' @importFrom readr write_file
+#' @importFrom RCurl getURL
+
+getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',path="uniprot.txt") {
+  RCurl::getURL(URL) %>% readr::write_file(path)
+}
+
+
+#
+# ----------------------------------------------------------
+#
+#                 loadYeastUniProtInfo
+#
+# INPUT
+#   path - defaults to "uniprot.txt"
+#   skip - defaults to 58
+#   colwidths - defaults to c(75, 20, 11, 12, 11, 5, 4, 3)
+#   names - defaults to c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")
+#
+# OUTPUT
+#   df containing file info
+
+
+loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),
+                                  colnames = c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")) {
+  read_fwf("uniprot.txt", skip = 58,fwf_widths(colwidths, colnames))
+
 }

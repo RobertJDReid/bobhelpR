@@ -278,6 +278,18 @@ getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',pa
 # OUTPUT
 #   df containing file info
 
+#' loadYeastUniProtInfo
+#'
+#' Function reads file \code{uniprot.txt} from current directory which contains information
+#' on yeast proteins in the Swiss UniProt database. \code{uniprot.txt} is fetched from the
+#' Swiss uniprot site with command \code{getYeastUniProtInfo}
+#'
+#' #' @param path The directory path to read the file
+#' Defaults to \code{"uniprot.txt"} in working directory but can be supplied in function call
+#' @param skip - defaults to 58
+#' @param colwidths - defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}
+#' @param names - defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")
+
 
 loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),
                                   colnames = c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")) {

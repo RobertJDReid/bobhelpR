@@ -258,6 +258,7 @@ gapPositions <- function(sequence, gapSize = 1) {
 #' Defaults to \code{"uniprot.txt"} in working directory.
 #' @importFrom readr write_file
 #' @importFrom RCurl getURL
+#' @export
 
 getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',path="uniprot.txt") {
   RCurl::getURL(URL) %>% readr::write_file(path)
@@ -289,6 +290,7 @@ getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',pa
 #' @param skip - defaults to 58
 #' @param colwidths - defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}
 #' @param names - defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")
+#' @export
 
 
 loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bobR.R
 \name{getYeastUniProtInfo}
 \alias{getYeastUniProtInfo}
-\title{get yeast UniProt info}
+\title{gets yeast UniProt info from UniProt URL and saves to local file}
 \usage{
 getYeastUniProtInfo(URL = "https://www.uniprot.org/docs/yeast.txt",
   path = "uniprot.txt")

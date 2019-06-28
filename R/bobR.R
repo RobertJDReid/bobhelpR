@@ -19,6 +19,12 @@
 
 # returning as a vector of numbers
 
+#' generate a vector of numbers based on start and end points of sequences
+#'
+#' @param start_vector vector of start numbers for generation of sequences
+#' @param end_vector vector of end numbers for generation of sequences
+#' @export
+
 seqPile <- function(start_vector,end_vector) {
   listPile <- purrr::map2(start_vector,end_vector,seq) %>%
     purrr::reduce(c)
@@ -34,6 +40,13 @@ seqPile <- function(start_vector,end_vector) {
 # Input
 #   dataDir defaults to 'data/'
 #   filename defaults to 'sequenceserver-full_tsv_report.tsv'
+
+#' read BLAST results file from the Y1000 BLAST server
+#'
+#' @param file path to BLAST results text file
+#' @param skip number of lines to skip to get to header
+#' @param prefix leading prefix text to remove from header line
+#' @export
 
 readYKBLAST <- function(file, skip = 3, prefix = "# Fields: ") {
 
@@ -82,6 +95,13 @@ readYKBLAST <- function(file, skip = 3, prefix = "# Fields: ") {
 # OUTPUT
 #   df of contig names and the midpoint wrt contig of the max BLAST hit
 
+#' Find the maximum alignment score on each subject DNA contig contained in the BLAST data
+#'
+#' @param contig_names vector of contig names taken from BLAST data
+#' @param align_mid vector of alignment midpoints from BLAST data
+#' @param score vector of BLAST scores from BLAST data
+#' @export
+
 maxInContig <- function(contig_names, align_mid, score) {
 
   # capture calling variable name for contig_names
@@ -108,6 +128,12 @@ maxInContig <- function(contig_names, align_mid, score) {
 #   A BLAST alignment file filtered to include max scoring hit on each DNA subject
 #   plus lower scoring alignments that are within query DNA length of the high scoring alignment
 
+#' group fragmented alignments based on proximity to highest score on each subject template
+#'
+#' @param BLASTdf dataframe of BLAST data from Y1000 project
+#' @param query_length_DNA DNA length of the query sequence
+#' @export
+
 alignmentGroups <- function (BLASTdf, query_length_DNA) {
 
   maxPositions <- maxInContig (BLASTdf$subject_id,BLASTdf$s_mid,BLASTdf$score)
@@ -127,6 +153,11 @@ alignmentGroups <- function (BLASTdf, query_length_DNA) {
 # OUTPUT
 #   DF with summation of grouped BLAST alignment scores
 
+#' Sum scores of grouped alignments
+#'
+#' @param BLASTdf dataframe containing BLAST results from Y1000 server
+#' @export
+
 sumGroupScores <- function(BLASTdf) {
   score_sums <- BLASTdf %>%
     group_by(subject_id) %>%
@@ -141,10 +172,15 @@ sumGroupScores <- function(BLASTdf) {
 #
 #                   maxGroupScores
 
+#' find maximum score of alignment groups for each species
+#'
+#' @param BLASTdf data frame of Y1000 BLAST server information
+#' @export
+
 maxGroupScore <- function(BLASTdf) {
   bySpeciesMax <- sumGroupScores(BLASTdf) %>%
     mutate(copy_sub = subject_id) %>%
-    separate(copy_sub,c("species",NA),sep=".fas") %>% #somehow I could not get str_split to do this, so I just bashed a column
+    separate(copy_sub,c("species",NA),sep=".fas") %>%
     group_by(species) %>%
     filter(score_sum == max(score_sum))
 }
@@ -161,6 +197,12 @@ maxGroupScore <- function(BLASTdf) {
 #
 # OUTPUT
 #   seq2 with insertions wrt seq1 removed
+
+#' remove sequence insertions from sequence 2 based on gaps in sequence 1
+#'
+#' @param seq1 string containing a reference sequence
+#' @param seq2 string containing a sequence with insertions to remove
+#' @export
 
 unGap <- function(seq1, seq2) {
 
@@ -189,6 +231,13 @@ unGap <- function(seq1, seq2) {
 #   A vector of positions conserved wrt the query sequence
 #
 
+#' Return number segments of aligned sequences taking gaps into account
+#'
+#' @param start integer start position of the alignment with respect to the query strand
+#' @param query string containing query strand sequence from alignment
+#' @param subject string containing subject strand sequence from alignment
+#' @export
+
 fineSegment <- function(start,query,subject) {
   new.string <- unGap(query,subject)
     # gaps in query now removed from subject
@@ -213,15 +262,15 @@ fineSegment <- function(start,query,subject) {
 # OUTPUT
 #   positions in seqeunce that are opened for gap from - gap opens after numbered position
 #
+# note that this really is broken. If a gap of greater than 1 is made, it ignores anything less that that gap number and does not decrement
+# the sequence appropriately
 
-# gapPositions <- function(sequence) {
-#   positionDF <- as.data.frame(str_locate_all(sequence,'-{1,}')[[1]]) %>%
-#     mutate(len = end - start + 1,
-#            cum = cumsum(len),
-#            recount = end - cum)
-#   return(positionDF$recount)
-#
-# }
+#' find all positions of gaps in a sequence
+#'
+#' @param sequence a sequence string with gaps denoted by '-' from a sequence alignment of BLAST search
+#' @param gapSize integer defining the number of gaps to consider when finding positions
+#' @importFrom stringr str_locate_all str_remove_all
+#' @export
 
 gapPositions <- function(sequence, gapSize = 1) {
   pattern <- paste0('-{',gapSize,',}')
@@ -247,7 +296,7 @@ gapPositions <- function(sequence, gapSize = 1) {
 # OUTPUT
 #   side effect of writing the uniprot.txt file into the working directory
 
-#' get yeast UniProt info
+#' gets yeast UniProt info from UniProt URL and saves to local file
 #'
 #' This function simply loads a list of the yeast genes in the Swiss UNIPROT database
 #' and saves it as a file
@@ -256,19 +305,18 @@ gapPositions <- function(sequence, gapSize = 1) {
 #' Defaults to \code{'https://www.uniprot.org/docs/yeast.txt'}
 #' @param path The directory path to store the file
 #' Defaults to \code{"uniprot.txt"} in working directory.
-#' @importFrom readr write_file
 #' @importFrom RCurl getURL
 #' @export
 
 getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',path="uniprot.txt") {
-  RCurl::getURL(URL) %>% readr::write_file(path)
+  getURL(URL) %>% readr::write_file(path)
 }
 
 
 #
 # ----------------------------------------------------------
 #
-#                 loadYeastUniProtInfo
+#                 loads Yeast UniProt info from local file
 #
 # INPUT
 #   path - defaults to "uniprot.txt"
@@ -279,22 +327,23 @@ getYeastUniProtInfo <- function (URL='https://www.uniprot.org/docs/yeast.txt',pa
 # OUTPUT
 #   df containing file info
 
-#' loadYeastUniProtInfo
+#' loads Yeast UniProt info from local file
 #'
 #' Function reads file \code{uniprot.txt} from current directory which contains information
 #' on yeast proteins in the Swiss UniProt database. \code{uniprot.txt} is fetched from the
 #' Swiss uniprot site with command \code{getYeastUniProtInfo}
 #'
-#' #' @param path The directory path to read the file
+#' @param path The directory path to read the file
 #' Defaults to \code{"uniprot.txt"} in working directory but can be supplied in function call
 #' @param skip - defaults to 58
+#' @param max - defaults to 6726
 #' @param colwidths - defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}
-#' @param names - defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")
+#' @param names - defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")}
 #' @export
 
 
-loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),
+loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, n_max = 6726, colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),
                                   colnames = c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")) {
-  read_fwf("uniprot.txt", skip = 58,fwf_widths(colwidths, colnames))
+  read_fwf("uniprot.txt", skip = skip, n_max = n_max, fwf_widths(colwidths, colnames))
 
 }

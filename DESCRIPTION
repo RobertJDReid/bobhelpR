@@ -10,9 +10,9 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     purrr,
-    readr,
+    readr (>= 0.2.2),
     stringr,
-    dplyr,
-    tidyr,
+    dplyr (>= 0.4.3),
+    tidyr (>= 0.3.0),
     rlang
 RoxygenNote: 6.1.1

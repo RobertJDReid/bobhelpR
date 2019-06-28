@@ -2,24 +2,27 @@
 % Please edit documentation in R/bobR.R
 \name{loadYeastUniProtInfo}
 \alias{loadYeastUniProtInfo}
-\title{loadYeastUniProtInfo}
+\title{loads Yeast UniProt info from local file}
 \usage{
-loadYeastUniProtInfo(path = "uniprot.txt", skip = 58,
+loadYeastUniProtInfo(path = "uniprot.txt", skip = 58, n_max = 6726,
   colwidths = c(75, 20, 11, 12, 11, 5, 4, 3), colnames = c("gene",
   "ORF", "swiss-prot-AC", "swiss-prot-name", "SGD-rec", "size-AA", "3D",
   "chromosome"))
 }
 \arguments{
+\item{path}{The directory path to read the file
+Defaults to \code{"uniprot.txt"} in working directory but can be supplied in function call}
+
 \item{skip}{- defaults to 58}
 
 \item{colwidths}{- defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}}
+
+\item{max}{- defaults to 6726}
+
+\item{names}{- defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")}}
 }
 \description{
 Function reads file \code{uniprot.txt} from current directory which contains information
 on yeast proteins in the Swiss UniProt database. \code{uniprot.txt} is fetched from the
 Swiss uniprot site with command \code{getYeastUniProtInfo}
-}
-\details{
-#' @param path The directory path to read the file
-Defaults to \code{"uniprot.txt"} in working directory but can be supplied in function call
 }

@@ -9,8 +9,9 @@ gapPositions(sequence, gapSize = 1)
 \arguments{
 \item{sequence}{a sequence string with gaps denoted by '-' from a sequence alignment of BLAST search}
 
-\item{gapSize}{integer defining the number of gaps to consider when finding positions}
+\item{gapSize}{integer defining the number of gaps >= gapSize to consider when finding positions}
 }
 \description{
-find all positions of gaps in a sequence
+returns a vector of positions in the sequence string representing sequence position after which a gap of \code{gapSize} or greater occur
+numbers returned are for a completely ungapped sequence
 }

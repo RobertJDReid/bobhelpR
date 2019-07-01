@@ -264,22 +264,44 @@ fineSegment <- function(start,query,subject) {
 #
 # note that this really is broken. If a gap of greater than 1 is made, it ignores anything less that that gap number and does not decrement
 # the sequence appropriately
+# may be able to fix with addition of negative look ahead and behind in the regex
+# for instance this removes only the specified number of repeated 'p's in a string
+#  str_remove_all(fruits, "(?<!p)p{3}(?!p)")
+# this one removes a range
+# str_remove_all(fruits, "(?<!p)p{1,3}(?!p)")
 
 #' find all positions of gaps in a sequence
 #'
+#' returns a vector of positions in the sequence string representing sequence position after which a gap of \code{gapSize} or greater occur
+#' numbers returned are for a completely ungapped sequence
+#'
 #' @param sequence a sequence string with gaps denoted by '-' from a sequence alignment of BLAST search
-#' @param gapSize integer defining the number of gaps to consider when finding positions
+#' @param gapSize integer defining the number of gaps >= gapSize to consider when finding positions
 #' @importFrom stringr str_locate_all str_remove_all
 #' @export
 
 gapPositions <- function(sequence, gapSize = 1) {
-  pattern <- paste0('-{',gapSize,',}')
+  if(gapSize >1) {
+    underPattern <- paste0('(?<!-)-{1,',gapSize-1,'}(?!-)')
+    #message(underPattern)
+    sequence <- str_remove_all(sequence, underPattern)
+  }
+  pattern <- paste0('(?<!-)-{',gapSize,',}(?!-)')
   positionDF <- as.data.frame(str_locate_all(sequence,pattern)[[1]]) %>%
     mutate(len = end - start + 1,
            cum = cumsum(len),
            recount = end - cum)
   return(positionDF$recount)
 }
+
+# gapPositions <- function(sequence, gapSize = 1) {
+#   pattern <- paste0('-{',gapSize,',}')
+#   positionDF <- as.data.frame(str_locate_all(sequence,pattern)[[1]]) %>%
+#     mutate(len = end - start + 1,
+#            cum = cumsum(len),
+#            recount = end - cum)
+#   return(positionDF$recount)
+# }
 
 #
 # ----------------------------------------------------------

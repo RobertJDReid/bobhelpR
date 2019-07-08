@@ -369,3 +369,53 @@ loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, n_max = 6726, c
   read_fwf("uniprot.txt", skip = skip, n_max = n_max, fwf_widths(colwidths, colnames))
 
 }
+
+#                   read Query Data
+#
+#  Input
+#   path
+#
+
+#' loads query data from a combined file containing a YAML with name, length, arbitrary other
+#' plus a line indicating whether domain data is attached
+#'
+#' @param path The directory path to read the file
+#' Defaults to \code{"data/query.txt"} in working directory but can be supplied in function call
+#' @importFrom yaml yaml.load
+#' @export
+
+readQueryData <- function (path = "data/query.txt") {
+
+  q.info <- yaml::yaml.load(read_lines(data_file))
+
+  # check for expected variable names and subset the list to any of those that exist
+  approved_variable_list <- c("query","query_length","domains_exist") # eventually pass this in to function
+  YAML_variables <- q.info[names(q.info) %in% approved_variable_list]
+  list2env(YAML_variables,globalenv())
+
+  # should build in checks for variable types and existence of query and query_length
+
+
+  # lines to skip
+
+  skip_lines <- which(read_lines(data_file) == "---")[-1]
+
+  # read parameter data file for domain info if it exists
+
+  if (exists("domains_exist")) {
+    if (domains_exist == T) {
+      #message("booyah!")
+      domains <- read_delim(
+        data_file,
+        "\t",
+        escape_double = FALSE,
+        trim_ws = TRUE,
+        skip = skip_lines
+      )
+    } else {
+      #message("mal")
+      domains <- NA
+    }
+  }
+
+}

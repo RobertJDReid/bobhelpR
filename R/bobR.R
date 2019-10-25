@@ -369,3 +369,59 @@ loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, n_max = 6726, c
   read_fwf("uniprot.txt", skip = skip, n_max = n_max, fwf_widths(colwidths, colnames))
 
 }
+
+#
+# ----------------------------------------------------------
+#
+#                 colonyCount
+#
+# INPUT
+#   img - a single plate image
+#   labelText - optional
+#
+# SIDE EFFECT
+#   display image with text
+#   display color labels for colonies
+#
+# OUTPUT
+#   number of found objects
+
+#' Identifies colonies on a scanned plate and returns number of colonies
+#'
+#' @param image A single plate image
+#' @param labelText Text to display over image
+#' @param maxArea Maximum size cutoff to filter out image artefacts
+#' @param minArea Minimum size cutoff to filter non-colony objects
+#' @param eccentricity Cutoff for colony objects
+#' @export
+
+colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentricity = 0.6) {
+  thr <- img < otsu(img)  # automatic threshold level detection
+  wat <- watershed(distmap(thr), tolerance = 1, ext = 1) # defaults
+
+  # Statistics for all detected objects
+  obj <- screenmill:::object_features(wat)
+
+  # Review distribution of objects to select filtering parameters
+  plot(density(obj$area), xlim = c(0, 1000))
+  plot(density(na.omit(obj$eccen)))
+
+  # "Colonies"
+  colonies <- obj %>%
+    filter(
+      area < maxArea,
+      area > minArea,
+      eccen < eccentricity
+    )
+
+  # Unlabel non-colony objects
+  result <- as.matrix(wat)
+  result[which(!result %in% colonies$obj)] <- 0L
+
+  display(img)
+  text(x = round(nrow(img),0), y = round(ncol(img),0),
+       label=labelText,
+       col="firebrick", cex=2)
+  display(colorLabels(result))
+  return(nrow(colonies))
+}

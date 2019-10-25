@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-data
+testData
+testScripts
 .DS_Store

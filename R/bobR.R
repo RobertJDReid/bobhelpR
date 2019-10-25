@@ -396,8 +396,9 @@ loadYeastUniProtInfo <- function (path="uniprot.txt", skip = 58, n_max = 6726, c
 #' @export
 
 colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentricity = 0.6) {
-  thr <- img < otsu(img)  # automatic threshold level detection
-  wat <- watershed(distmap(thr), tolerance = 1, ext = 1) # defaults
+  thr <- img < EBImage::otsu(img)  # automatic threshold level detection
+  wat <- EBImage::watershed(EBImage::distmap(thr), tolerance = 1, ext = 1) # defaults
+
 
   # Statistics for all detected objects
   obj <- screenmill:::object_features(wat)
@@ -418,10 +419,10 @@ colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentric
   result <- as.matrix(wat)
   result[which(!result %in% colonies$obj)] <- 0L
 
-  display(img, method = "raster")
+  EBImage::display(img, method = "raster")
   text(x = round(nrow(img),0), y = round(ncol(img),0),
        label=labelText,
        col="firebrick", cex=2)
-  display(colorLabels(result), method = "raster")
+  EBImage::display(colorLabels(result), method = "raster")
   return(nrow(colonies))
 }

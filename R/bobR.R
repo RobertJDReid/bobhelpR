@@ -418,10 +418,10 @@ colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentric
   result <- as.matrix(wat)
   result[which(!result %in% colonies$obj)] <- 0L
 
-  display(img)
+  display(img, method = "raster")
   text(x = round(nrow(img),0), y = round(ncol(img),0),
        label=labelText,
        col="firebrick", cex=2)
-  display(colorLabels(result))
+  display(colorLabels(result), method = "raster")
   return(nrow(colonies))
 }

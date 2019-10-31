@@ -428,7 +428,6 @@ colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentric
 }
 
 #' Computes the angle between three points
-#' Borrowed from LearnGeom package
 #'
 #' \code{Angle} computes the angle between three points
 #' @param A Vector containing the xy-cooydinates of point A

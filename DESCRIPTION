@@ -16,3 +16,4 @@ Imports:
     tidyr (>= 0.3.0),
     rlang
 RoxygenNote: 6.1.1
+Roxygen: list(markdown=TRUE)

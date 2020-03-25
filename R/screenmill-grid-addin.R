@@ -115,7 +115,7 @@ shift_grid <- function(plate,
 #'   Adds a conditional to shift grid so that grid can be moved by colony_row,
 #'    colony_col or both to specify a specific cell. The conditional should
 #'    be captured with `quo` as such:
-#'         `cond = quo(colony_row == 16 & colony_col%in%c(14:22))`
+#'         cond = quo(colony_row == 16 & colony_col%in%c(14:22))
 #'
 #' @param plate a screenmill plate object loaded by the read_plate function
 #' @param cond a quoted conditional statement to select range of rows or cols

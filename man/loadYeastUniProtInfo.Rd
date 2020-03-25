@@ -13,13 +13,21 @@ loadYeastUniProtInfo(path = "uniprot.txt", skip = 58, n_max = 6726,
 \item{path}{The directory path to read the file
 Defaults to \code{"uniprot.txt"} in working directory but can be supplied in function call}
 
-\item{skip}{- defaults to 58}
+\item{skip}{\itemize{
+\item defaults to 58
+}}
 
-\item{colwidths}{- defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}}
+\item{colwidths}{\itemize{
+\item defaults to \code{c(75, 20, 11, 12, 11, 5, 4, 3)}
+}}
 
-\item{max}{- defaults to 6726}
+\item{max}{\itemize{
+\item defaults to 6726
+}}
 
-\item{names}{- defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")}}
+\item{names}{\itemize{
+\item defaults to \code{c("gene", "ORF", "swiss-prot-AC","swiss-prot-name","SGD-rec", "size-AA", "3D", "chromosome")}
+}}
 }
 \description{
 Function reads file \code{uniprot.txt} from current directory which contains information

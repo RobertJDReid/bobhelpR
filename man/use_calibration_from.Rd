@@ -7,20 +7,20 @@
 use_calibration_from(acceptor, donor)
 }
 \arguments{
-\item{acceptor}{A screenmill plate image object produced by `read_plate`}
+\item{acceptor}{A screenmill plate image object produced by \code{read_plate}}
 
-\item{donor}{A screenmill plate image object produced by `read_plate`}
+\item{donor}{A screenmill plate image object produced by \code{read_plate}}
 }
 \description{
 INPUT
-   acceptor - a single screenmill plate image with associated metadata produced by read_plate
-               'accepts' the donated grid
-   donor    - a single screenmill plate image with associated metadata produced by read_plate
-               'donates' a grid
+acceptor - a single screenmill plate image with associated metadata produced by read_plate
+'accepts' the donated grid
+donor    - a single screenmill plate image with associated metadata produced by read_plate
+'donates' a grid
 }
 \details{
 progamatically, the acceptor gives the identity elements of the plate (image-file-path, group, etc).
-     Identity data is copied onto the donor object with the desired crop and grid data
-     The the 'donor' is updated, which reloads the image using the new image path etc.
+Identity data is copied onto the donor object with the desired crop and grid data
+The the 'donor' is updated, which reloads the image using the new image path etc.
 Copies grid annotation data from the donor onto the acceptor image
 }

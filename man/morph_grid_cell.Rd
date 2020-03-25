@@ -24,8 +24,8 @@ morph_grid_cell(plate, cond, left = 0, right = 0, up = 0, down = 0,
 }
 \description{
 Modifies grid by specific edges in order to shrink or expand as necessary
-    to capture data or avoid plate anomalies (shadows/reflections/contaminants)
-    Uses a conditional as in shift_grid_cell so that specific cells/rows/cols can be
-    modified. x and y are recalculated when cells are updated. Positive values for
-    left,right,up,down move named grid edges in that direction, negative values reverse this
+to capture data or avoid plate anomalies (shadows/reflections/contaminants)
+Uses a conditional as in shift_grid_cell so that specific cells/rows/cols can be
+modified. x and y are recalculated when cells are updated. Positive values for
+left,right,up,down move named grid edges in that direction, negative values reverse this
 }

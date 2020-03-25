@@ -3,9 +3,9 @@
 \name{shift_grid_cell}
 \alias{shift_grid_cell}
 \title{Adds a conditional to shift grid so that grid can be moved by colony_row,
-   colony_col or both to specify a specific cell. The conditional should
-   be captured with `quo` as such:
-        `cond = quo(colony_row == 16 & colony_col%in%c(14:22))`}
+colony_col or both to specify a specific cell. The conditional should
+be captured with \code{quo} as such:
+cond = quo(colony_row == 16 & colony_col%in%c(14:22))}
 \usage{
 shift_grid_cell(plate, cond, left = 0, right = 0, up = 0, down = 0,
   view = TRUE)
@@ -27,7 +27,7 @@ shift_grid_cell(plate, cond, left = 0, right = 0, up = 0, down = 0,
 }
 \description{
 Adds a conditional to shift grid so that grid can be moved by colony_row,
-   colony_col or both to specify a specific cell. The conditional should
-   be captured with `quo` as such:
-        `cond = quo(colony_row == 16 & colony_col%in%c(14:22))`
+colony_col or both to specify a specific cell. The conditional should
+be captured with \code{quo} as such:
+cond = quo(colony_row == 16 & colony_col%in%c(14:22))
 }

@@ -429,7 +429,7 @@ colonyCount <- function(img,labelText="", maxArea = 800, minArea = 25, eccentric
 
 #' Computes the angle between three points
 #'
-#' \code{Angle} computes the angle between three points
+#' \code{angle} computes the angle between three points
 #' @param A Vector containing the xy-cooydinates of point A
 #' @param B Vector containing the xy-cooydinates of point B. This point acts as the vertex of angle ABC
 #' @param C Vector containing the xy-cooydinates of point C

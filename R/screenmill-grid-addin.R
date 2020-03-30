@@ -218,16 +218,16 @@ standardize_grid <- function(plate,view=TRUE) {
     plate$grid %>%
     group_by(colony_row) %>%
     mutate(
-      t = median(t),
-      b = median(b),
-      y = median(y)
+      t = as.integer(median(t)),
+      b = as.integer(median(b)),
+      y = as.integer(median(y))
     ) %>%
     ungroup() %>%
     group_by(colony_col) %>%
     mutate(
-      l = median(l),
-      r = median(r),
-      x = median(x)
+      l = as.integer(median(l)),
+      r = as.integer(median(r)),
+      x = as.integer(median(x))
     ) %>%
     ungroup()
   if (view) view_plate(plate)

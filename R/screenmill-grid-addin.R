@@ -214,20 +214,23 @@ justify_grid_edge <- function(plate,cond,side="t",fcn,view=TRUE) {
 #' @export
 
 standardize_grid <- function(plate,view=TRUE) {
+  #
+  # Note, these values are col_coubles in plate annotation data
+  #
   plate$grid <-
     plate$grid %>%
     group_by(colony_row) %>%
     mutate(
-      t = as.integer(median(t)),
-      b = as.integer(median(b)),
-      y = as.integer(median(y))
+      t = round(median(t),digits = 0),
+      b = round(median(b),digits = 0),
+      y = round(median(y),digits = 0)
     ) %>%
     ungroup() %>%
     group_by(colony_col) %>%
     mutate(
-      l = as.integer(median(l)),
-      r = as.integer(median(r)),
-      x = as.integer(median(x))
+      l = round(median(l),digits = 0),
+      r = round(median(r),digits = 0),
+      x = round(median(x),digits = 0)
     ) %>%
     ungroup()
   if (view) view_plate(plate)

@@ -3,7 +3,6 @@
 \docType{package}
 \name{bobhelpR}
 \alias{bobhelpR}
-\alias{bobhelpR-package}
 \title{bobhelpR R package}
 \description{
 bobhelpR R package

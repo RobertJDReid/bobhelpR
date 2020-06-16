@@ -4,8 +4,10 @@
 \alias{getYeastUniProtInfo}
 \title{gets yeast UniProt info from UniProt URL and saves to local file}
 \usage{
-getYeastUniProtInfo(URL = "https://www.uniprot.org/docs/yeast.txt",
-  path = "uniprot.txt")
+getYeastUniProtInfo(
+  URL = "https://www.uniprot.org/docs/yeast.txt",
+  path = "uniprot.txt"
+)
 }
 \arguments{
 \item{URL}{The web location of the file.

@@ -300,8 +300,9 @@ align_grid_row <- function(plate,cond,side="t", view=TRUE) {
 #' @param down number of pixels to move grid down
 #' @param view logical display plate with grid defaults to TRUE
 #' @export
+#' @alias morph_grid_cell
 
-morph_grid_cell <- function(plate,cond,
+sm_resize_grid_cell <- function(plate,cond,
                             left = 0, right = 0, up = 0, down = 0,
                             view = TRUE) {
   plate$grid <-
@@ -317,6 +318,7 @@ morph_grid_cell <- function(plate,cond,
   if (view) view_plate(plate)
   return(invisible(plate))
 }
+morph_grid_cell = sm_resize_grid_cell
 
 #---------------------------------------------------------------------------
 #
@@ -348,6 +350,37 @@ shift_crop <- function(plate,
   result <- update_plate(plate, view = view)
   return(invisible(result))
 }
+
+#---------------------------------------------------------------------------
+#
+#' sm_resize_crop
+#'
+#' shifts the crop of a plate by the specified pixel amount in the specified
+#' direction
+#'
+#' @param plate a screenmill plate object loaded by the read_plate function
+#' @param left number of pixels to move left grid-edge to the left, use negative values to move it to the right
+#' @param right number of pixels to move right grid-edge to the right, use negative values to move it to the left
+#' @param up number of pixels to move top grid-edge up, negative moves it down
+#' @param down number of pixels to move bottom grid-edge down, negative moves it up
+#' @param view logical display plate with grid defaults to TRUE
+#' @export
+
+sm_resize_crop <- function(plate,
+                       left = 0, right = 0, up = 0, down = 0,
+                       view = TRUE) {
+  plate$crop <-
+    plate$crop %>%
+    mutate(
+      fine_l = fine_l - left,
+      fine_r = fine_r + right,
+      fine_t = fine_t - up,
+      fine_b = fine_b + down
+    )
+  result <- update_plate(plate, view = view)
+  return(invisible(result))
+}
+
 
 #-----------------------------------------------------------
 #

@@ -4,10 +4,14 @@
 \alias{loadYeastUniProtInfo}
 \title{loads Yeast UniProt info from local file}
 \usage{
-loadYeastUniProtInfo(path = "uniprot.txt", skip = 58, n_max = 6726,
-  colwidths = c(75, 20, 11, 12, 11, 5, 4, 3), colnames = c("gene",
-  "ORF", "swiss-prot-AC", "swiss-prot-name", "SGD-rec", "size-AA", "3D",
-  "chromosome"))
+loadYeastUniProtInfo(
+  path = "uniprot.txt",
+  skip = 58,
+  n_max = 6726,
+  colwidths = c(75, 20, 11, 12, 11, 5, 4, 3),
+  colnames = c("gene", "ORF", "swiss-prot-AC", "swiss-prot-name", "SGD-rec", "size-AA",
+    "3D", "chromosome")
+)
 }
 \arguments{
 \item{path}{The directory path to read the file

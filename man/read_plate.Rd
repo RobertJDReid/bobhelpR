@@ -4,8 +4,7 @@
 \alias{read_plate}
 \title{read a single screenmill plate and annotation data by plate_id and display}
 \usage{
-read_plate(plate = "2016-03-02-001-001-003", dir = "data",
-  view = TRUE)
+read_plate(plate = "2016-03-02-001-001-003", dir = "data", view = TRUE)
 }
 \arguments{
 \item{plate}{plate id from a screenmill annotation}

@@ -15,5 +15,5 @@ Imports:
     dplyr (>= 0.4.3),
     tidyr (>= 0.3.0),
     rlang
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown=TRUE)

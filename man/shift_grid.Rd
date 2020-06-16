@@ -4,8 +4,7 @@
 \alias{shift_grid}
 \title{shifts plate grid as a unit}
 \usage{
-shift_grid(plate, left = 0, right = 0, up = 0, down = 0,
-  view = TRUE)
+shift_grid(plate, left = 0, right = 0, up = 0, down = 0, view = TRUE)
 }
 \arguments{
 \item{plate}{a screenmill plate object loaded by the read_plate function}

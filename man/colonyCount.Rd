@@ -4,8 +4,13 @@
 \alias{colonyCount}
 \title{Identifies colonies on a scanned plate and returns number of colonies}
 \usage{
-colonyCount(img, labelText = "", maxArea = 800, minArea = 25,
-  eccentricity = 0.6)
+colonyCount(
+  img,
+  labelText = "",
+  maxArea = 800,
+  minArea = 25,
+  eccentricity = 0.6
+)
 }
 \arguments{
 \item{labelText}{Text to display over image}

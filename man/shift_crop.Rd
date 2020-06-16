@@ -4,8 +4,7 @@
 \alias{shift_crop}
 \title{shift_crop}
 \usage{
-shift_crop(plate, left = 0, right = 0, up = 0, down = 0,
-  view = TRUE)
+shift_crop(plate, left = 0, right = 0, up = 0, down = 0, view = TRUE)
 }
 \arguments{
 \item{plate}{a screenmill plate object loaded by the read_plate function}

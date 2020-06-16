@@ -381,6 +381,32 @@ sm_resize_crop <- function(plate,
   return(invisible(result))
 }
 
+#---------------------------------------------------------------------------
+#
+#' sm_rotate_crop
+#'
+#' rotates the crop of a plate by the specified angle. Default rotation from
+#' standard scan template is 90˚. Providing a crop value of < 90˚ gives an
+#' apparent counter-clockwise rotation to the plate. An angle of > 90˚ gives a
+#' clockwise rotation.
+#'
+#' @param plate a screenmill plate object loaded by the read_plate function
+#' @param rotate number of pixels to move grid to the left
+#' @param view logical display plate with grid defaults to TRUE
+#' @export
+
+sm_rotate_crop <- function(plate,
+                       new_rotate = 90,
+                       view = TRUE) {
+  plate$crop <-
+    plate$crop %>%
+    mutate(
+      rotate = new_rotate
+    )
+  result <- update_plate(plate, view = view)
+  return(invisible(result))
+}
+
 
 #-----------------------------------------------------------
 #

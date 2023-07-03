@@ -117,7 +117,7 @@ maxInContig <- function(contig_names, align_mid, score) {
     select(contig_names,max_loc = align_mid) %>%
     # restore original column name from calling variable
     #rename(!!x := contig_names)
-    rename(y = contig_names)
+    rename(!!y := contig_names)
 }
 
 

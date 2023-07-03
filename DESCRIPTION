@@ -1,7 +1,7 @@
 Package: bobhelpR
 Type: Package
 Title: Helper functions for analysis of Y1000 BLAST results
-Version: 0.1.0
+Version: 0.1.1
 Author: Robert J.D. Reid, Ph.D.
 Maintainer: Robert J.D. Reid, Ph.D. <robert.reid381@gmail.com>
 Description: Collection of helper functions

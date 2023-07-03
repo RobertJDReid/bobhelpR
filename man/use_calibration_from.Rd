@@ -19,10 +19,10 @@ donor    - a single screenmill plate image with associated metadata produced by 
 'donates' a grid
 }
 \details{
-\preformatted{ progamatically, the acceptor gives the identity elements of the plate (image-file-path, group, etc).
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ progamatically, the acceptor gives the identity elements of the plate (image-file-path, group, etc).
  Identity data is copied onto the donor object with the desired crop and grid data
  The the 'donor' is updated, which reloads the image using the new image path etc.
-}
+}\if{html}{\out{</div>}}
 
 Copies grid annotation data from the donor onto the acceptor image
 }

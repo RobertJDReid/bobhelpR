@@ -105,7 +105,9 @@ readYKBLAST <- function(file, skip = 3, prefix = "# Fields: ") {
 maxInContig <- function(contig_names, align_mid, score) {
 
   # capture calling variable name for contig_names
-  x=last(substitute(contig_names))
+  #x=last(substitute(contig_names))
+  x = as.character(substitute(contig_names))
+  y = last(unlist(str_split(x,"\\$")))
 
   #message(paste0("input contig names are ",x))
 
@@ -114,8 +116,10 @@ maxInContig <- function(contig_names, align_mid, score) {
     filter(score == max(score)) %>%
     select(contig_names,max_loc = align_mid) %>%
     # restore original column name from calling variable
-    rename(!!x := contig_names)
+    #rename(!!x := contig_names)
+    rename(y = contig_names)
 }
+
 
 #
 # ----------------------------------------------------------
